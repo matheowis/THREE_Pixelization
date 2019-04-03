@@ -22,6 +22,26 @@ class Points {
       this.length++
     }
   }
+  append(x, y, z, value) {
+    if (this.mainObj[x]) {
+      if (this.mainObj[x][y]) {
+        if (!this.mainObj[x][y][z]) {
+          this.mainObj[x][y][z] = [value];
+          this.length++
+        }
+        this.mainObj[x][y][z].push(value);
+      } else {
+        this.mainObj[x][y] = {};
+        this.mainObj[x][y][z] = [value];
+        this.length++
+      }
+    } else {
+      this.mainObj[x] = {};
+      this.mainObj[x][y] = {};
+      this.mainObj[x][y][z] = [value];
+      this.length++
+    }
+  }
   get(x, y, z) {
     if (this.mainObj[x] && this.mainObj[x][y] && this.mainObj[x][y][z]) {
       return this.mainObj[x][y][z]

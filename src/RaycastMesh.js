@@ -1,4 +1,5 @@
 import { Mesh, Vector3, Ray } from "three"
+import Points from "./Points";
 
 const closeRay = new Ray();
 
@@ -14,17 +15,32 @@ for(var i =0;i< faces.length;i++){
   const y = Math.floot(faceCenter.y / size) * size;
   const z = Math.floot(faceCenter.z / size) * size;
   if(!points.get(x,y,z)){
-    points.set(x,y,z,"surface")
+    points.set(x,y,z,[face])
   }
 }
-
+needs integrity check, what if face is bigger than size
+if too big store face for later, check integrity within face based on its normal, if lacking add them
 */
 class RaycastMesh extends Mesh {
   constructor(geometry, material) {
     super(geometry, material);
 
     this.ray = new Ray(new Vector3(0, 0, 0), new Vector3(1, 1, 1).normalize());
-    this.faceChunks = []
+    this.faceChunks = [];
+    this.shellPoints = new Points();
+  }
+  createShellSegments(size = 4) {
+    const { faces, vertices } = this.geometry;
+    for (var i = 0; i < faces.length; i++) {
+      const face = faces[i];
+      const faceCenter = new Vector3()
+        .add(vertices[face.a])
+        .add(vertices[face.b])
+        .add(vertices[face.c])
+        .divideScalar(3).toArray();
+      const faceGridCenter = faceCenter.map(val => Math.floor(val / size) * size);
+      this.shellPoints.append(...faceGridCenter, [face]);
+    }
   }
   isPointInsideMe(point = new Vector3(0, 0, 0)) {
     return closestPoint(point, new Vector3(1, 0, 0), this.geometry);
