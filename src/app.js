@@ -24,7 +24,7 @@ const material = new MeshBasicMaterial({ color: 0xffff00, side: DoubleSide });
 const mesh = new RaycastMesh(geometry, material);
 const raycaster = new Raycaster();
 console.log(mesh.isPointInsideMe6(new Vector3(0,0,0)));
-
+mesh.faceSegmentation();
 raycaster.set(point, direction)
 const intersects = raycaster.intersectObject(mesh);
 
