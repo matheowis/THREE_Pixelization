@@ -21,6 +21,7 @@ for(var i =0;i< faces.length;i++){
 needs integrity check, what if face is bigger than size
 if too big store face for later, check integrity within face based on its normal, if lacking add them
 */
+// I will need flat faces
 // https://www.khronos.org/opengl/wiki/Calculating_a_Surface_Normal
 // Begin Function CalculateSurfaceNormal (Input Triangle) Returns Vector
 
