@@ -21,6 +21,19 @@ for(var i =0;i< faces.length;i++){
 needs integrity check, what if face is bigger than size
 if too big store face for later, check integrity within face based on its normal, if lacking add them
 */
+// https://www.khronos.org/opengl/wiki/Calculating_a_Surface_Normal
+// Begin Function CalculateSurfaceNormal (Input Triangle) Returns Vector
+
+// 	Set Vector U to (Triangle.p2 minus Triangle.p1)
+// 	Set Vector V to (Triangle.p3 minus Triangle.p1)
+
+// 	Set Normal.x to (multiply U.y by V.z) minus (multiply U.z by V.y)
+// 	Set Normal.y to (multiply U.z by V.x) minus (multiply U.x by V.z)
+// 	Set Normal.z to (multiply U.x by V.y) minus (multiply U.y by V.x)
+
+// 	Returning Normal
+
+// End Function
 class RaycastMesh extends Mesh {
   constructor(geometry, material) {
     super(geometry, material);
@@ -42,6 +55,7 @@ class RaycastMesh extends Mesh {
       this.shellPoints.append(...faceGridCenter, [face]);
     }
   }
+  // probably wont have to check that, just use small shell segments with after face correction
   isPointInsideMe(point = new Vector3(0, 0, 0)) {
     return closestPoint(point, new Vector3(1, 0, 0), this.geometry);
   }
