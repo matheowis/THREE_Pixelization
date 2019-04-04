@@ -44,6 +44,8 @@ class RaycastMesh extends Mesh {
     this.shellPoints = new Points();
   }
   createShellSegments(size = 4) {
+    //vertices[face.a].projectOnPlane
+    // also checkout cross product
     const { faces, vertices } = this.geometry;
     for (var i = 0; i < faces.length; i++) {
       const face = faces[i];
@@ -53,7 +55,7 @@ class RaycastMesh extends Mesh {
         .add(vertices[face.c])
         .divideScalar(3).toArray();
       const faceGridCenter = faceCenter.map(val => Math.floor(val / size) * size);
-      this.shellPoints.append(...faceGridCenter, [face]);
+      this.shellPoints.append(...faceGridCenter, face);
     }
   }
   // probably wont have to check that, just use small shell segments with after face correction
